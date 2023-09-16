@@ -8,20 +8,27 @@ const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
 const cors = require('cors')
 
-app.use(express.json())
+// app.use((req, res, next) => {
+//     res.header('Access-Control-Allow-Origin', '*');
+//     res.header('Access-Control-Allow-Headers', '*');
+//     res.header('Access-Control-Request-Headers', '*');
+//     if (req.method === "OPTIONS") {
+//       res.header('Access-Control-Allow-Methods', '*');
+//       return res.status(200).json({});
+//     }
+//     next();
+//   });
+
 app.use(cors())
+app.use(express.json())
 app.use(cookieParser())
 
 const connectDB = require('./connect')
 const errorHandler = require('./error-handler/error.js')
 const notFound = require('./error-handler/notfound.js')
 
-
 //Middlewares
 // app.use(bodyParser.json())
-
-
-
 
 
 //My Routes
@@ -29,11 +36,9 @@ const authRoutes = require('./routes/auth')
 const spaceRoutes = require('./routes/space')
 const reserveRoutes = require('./routes/reserve')
 
-
 app.use('/parkspace',authRoutes)
 app.use('/parkspace',spaceRoutes)
 app.use('/parkspace',reserveRoutes)
-
 
 app.use(notFound)
 app.use(errorHandler)
